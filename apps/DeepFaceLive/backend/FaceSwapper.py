@@ -334,9 +334,9 @@ class FaceSwapperWorker(BackendWorker):
                             fsi.face_swap_image_name = f'{fsi.face_align_image_name}_swapped'
                             fsi.face_swap_mask_name  = f'{fsi.face_swap_image_name}_mask'
 
-                            bcd.set_image(fsi.face_align_mask_name, face_align_mask_img)
+                            bcd.set_image(fsi.face_align_mask_name, celeb_face)
                             bcd.set_image(fsi.face_swap_image_name, celeb_face)
-                            bcd.set_image(fsi.face_swap_mask_name, celeb_face_mask_img)
+                            bcd.set_image(fsi.face_swap_mask_name, celeb_face)
 
                 self.stop_profile_timing()
                 self.pending_bcd = bcd

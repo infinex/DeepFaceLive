@@ -338,9 +338,11 @@ class FaceMergerWorker(BackendWorker):
 
                             face_align_img            = bcd.get_image(fsi.face_align_image_name)
                             face_align_lmrks_mask_img = bcd.get_image(fsi.face_align_lmrks_mask_name)
-                            face_align_mask_img       = bcd.get_image(fsi.face_align_mask_name)
+                            # face_align_mask_img       = bcd.get_image(fsi.face_align_mask_name)
+                            face_align_mask_img       = face_align_lmrks_mask_img
                             face_swap_img             = bcd.get_image(fsi.face_swap_image_name)
-                            face_swap_mask_img        = bcd.get_image(fsi.face_swap_mask_name)
+                            # face_swap_mask_img        = bcd.get_image(fsi.face_swap_mask_name)
+                            face_swap_mask_img        = face_align_lmrks_mask_img
 
                             if all_is_not_None(face_resolution, face_align_img, face_align_mask_img, face_swap_img, face_swap_mask_img, image_to_align_uni_mat):
                                 has_merged_faces = True

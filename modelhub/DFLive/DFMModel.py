@@ -111,16 +111,21 @@ class DFMModel:
         """
 
         ip = ImageProcessor(img)
-
+        
         N,H,W,C = ip.get_dims()
         dtype = ip.get_dtype()
 
         img = ip.resize( (self._input_width,self._input_height) ).ch(3).to_ufloat32().get_image('NHWC')
 
         if self._model_type == 1:
-            out_face_mask, out_celeb, out_celeb_mask = self._sess.run(None, {'in_face:0': img})
+            out = self._sess.run(None, {'in_face:0': img})
         elif self._model_type == 2:
-            out_face_mask, out_celeb, out_celeb_mask = self._sess.run(None, {'in_face:0': img, 'morph_value:0':np.float32([morph_factor]) })
+            out = self._sess.run(None, {'in_face:0': img, 'morph_value:0':np.float32([morph_factor]) })
+
+        if len(out) == 3:
+            out_face_mask, out_celeb, out_celeb_mask = out
+        else:
+            out_face_mask = out_celeb = out_celeb_mask = out[0]
 
         out_celeb      = ImageProcessor(out_celeb).resize((W,H)).ch(3).to_dtype(dtype).get_image('NHWC')
         out_celeb_mask = ImageProcessor(out_celeb_mask).resize((W,H)).ch(1).to_dtype(dtype).get_image('NHWC')
